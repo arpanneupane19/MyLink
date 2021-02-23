@@ -41,6 +41,9 @@ def login():
             if bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user)
                 return redirect(url_for("dashboard"))
+            flash("Incorrect password.", 'warning')
+        if user is None:
+            flash("This account does not exist.", 'warning')
 
     return render_template('forms/login.html', title="Login", form=form)
 
