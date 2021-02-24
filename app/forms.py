@@ -38,6 +38,6 @@ class RegisterForm(FlaskForm):
 
 class CreateLinkForm(FlaskForm):
     link = StringField(validators=[InputRequired(), Length(
-        min=5, max=200)], render_kw={"placeholder": "Link"})
+        min=5, max=200)], render_kw={"placeholder": "Link (Domain name only)"})
     link_name = StringField(validators=[InputRequired(), Length(min=4, max=50)], render_kw={
                             "placeholder": "Link Name (Name that will show up)"})
