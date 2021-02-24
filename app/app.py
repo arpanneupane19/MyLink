@@ -69,7 +69,7 @@ def create_link():
 @app.route('/<username>')
 def view_site(username):
     user = User.query.filter_by(username=username).first_or_404()
-    links = Link.query.all()
+    links = Link.query.filter_by(owner=user).all()
     return render_template('pages/site.html', title=user.username, user=user, links=links)
 
 
