@@ -24,7 +24,7 @@
                             class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Sites</a>
+                    <a class="nav-link" href="{{ url_for('create_link') }}">Create Link</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
@@ -32,17 +32,76 @@
         </div>
     </nav>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+    <div class="container">
+        <div class="header">
+            <h2>MyLink</h2>
+            <hr>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            {% if category == 'message' %}
+            <div class="alert alert-warning" role="alert">
+                {% else %}
+                <div class="alert alert-{{ category }}" role="alert">
+                    {% endif %}
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+                <a href="{{ url_for('create_link') }}" class="btn btn-primary">Create Link</a>
+            </div>
 
+            <div class="my-sites">
+                <h5>My Links</h5>
+                <div class="all-sites">
+                    {% if links_total == 0 %}
+                    <p>You don't have any links on your site.</p>
+                    {% else %}
+                    {% for link in links %}
+                    <div class="link">
+                        <p>Link Name: {{link.link_name}}</p>
+                        <p>Link: {{link.link}}</p>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
 
+        <style>
+            .container {
+                margin-top: 30px;
+            }
+
+            .header {
+                margin-bottom: 60px;
+            }
+
+            .all-sites {
+                margin-top: 30px;
+                border: 1px solid lightgray;
+                padding: 25px;
+                border-radius: 5px;
+            }
+
+            .link {
+                border: 1px solid lightgray;
+                margin-bottom: 15px;
+                padding: 5px;
+                border-radius: 4px;
+
+            }
+        </style>
 
 </body>
 
