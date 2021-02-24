@@ -5,15 +5,92 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>MyLink - {{ title }}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 
 <body>
 
-    <h1>{{user.username}}</h1>
-    {% for link in links %}
-    <p>{{link.link_name}}</p>
-    <p>{{link.link}}</p>
-    {% endfor %}
+    <div class="container">
+
+        <div class="user">
+            <img class='profile-picture' src="../../static/profile_pics/{{user.profile_picture}}">
+            <h2>{{user.username}}</h2>
+            <div class="links">
+                {% for link in links %}
+                <div class="link">
+                    <a href="http://{{link.link}}" target="__blank">{{link.link_name}}</a>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <footer>
+            Powered by MyLink
+        </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-size: large;
+        }
+
+        .link>a {
+            text-decoration: none;
+
+        }
+
+        .profile-picture {
+            width: 100px;
+            object-fit: contain;
+            border: 1px solid black;
+            border-radius: 50%;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .user {
+            text-align: center;
+        }
+
+        .links {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .link {
+            padding: 10px;
+            border: 1px solid lightgray;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        footer {
+            display: flex;
+            padding: 3px;
+            color: black;
+            justify-content: center;
+        }
+    </style>
 </body>
 
 </html>
