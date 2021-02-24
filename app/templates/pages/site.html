@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MyLink - {{ title }}</title>
+</head>
+
+<body>
+
+    <h1>{{user.username}}</h1>
+    {% for link in links %}
+    <p>{{link.link_name}}</p>
+    <p>{{link.link}}</p>
+    {% endfor %}
+</body>
+
+</html>
