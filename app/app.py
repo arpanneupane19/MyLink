@@ -66,6 +66,13 @@ def create_link():
     return render_template('forms/create_link.html', title='Create Link', form=form)
 
 
+@app.route('/<username>')
+def view_site(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    links = Link.query.all()
+    return render_template('pages/site.html', title=user.username, user=user, links=links)
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
