@@ -16,7 +16,7 @@ class LoginForm(FlaskForm):
 
 class RegisterForm(FlaskForm):
     email = StringField(validators=[InputRequired(), Email(
-        message="Invalid Email"), Length(max=50)], render_kw={"placeholder": "Email Address"})
+        message="Invalid Email"), Length(min=5, max=50)], render_kw={"placeholder": "Email Address"})
     username = StringField(validators=[InputRequired(), Length(
         min=4, max=15)], render_kw={"placeholder": "Username"})
     password = PasswordField(validators=[InputRequired(), Length(
@@ -41,3 +41,16 @@ class CreateLinkForm(FlaskForm):
         min=5, max=200)], render_kw={"placeholder": "Link (Domain name only)"})
     link_name = StringField(validators=[InputRequired(), Length(min=4, max=50)], render_kw={
                             "placeholder": "Link Name (Name that will show up)"})
+
+
+class AccountForm(FlaskForm):
+    email = StringField(validators=[InputRequired(), Email(
+        message="Invalid Email"), Length(min=5, max=50)], render_kw={"placeholder": "Update Email Address"})
+    bio = StringField(validators=[InputRequired(), Length(
+        min=4, max=300)], render_kw={"placeholder": "Update My Bio"})
+
+    def validate_email(self, email):
+        existing_email = User.query.filter_by(email=email.data).first()
+        if existing_email:
+            raise ValidationError(
+                "That email already exists, please choose a different one.")

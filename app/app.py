@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, flash, session
+from flask import Flask, render_template, session, request, url_for, redirect, flash, abort, session
 from flask_sqlalchemy import SQLAlchemy
 from forms import *
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -20,6 +20,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(15), unique=True, nullable=False)
     email = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(80), nullable=False)
+    bio = db.Column(db.String(300))
     profile_picture = db.Column(
         db.String(20), nullable=False, default='default.jpg')
     links = db.relationship('Link', backref='owner', lazy='dynamic')
@@ -39,6 +40,8 @@ def load_user(user_id):
 
 @app.route('/', methods=["GET", "POST"])
 def home():
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard'))
     return render_template('pages/home.html', title='Home')
 
 
@@ -50,6 +53,22 @@ def dashboard():
     for link in links:
         links_total += 1
     return render_template('pages/dashboard.html', title='Dashboard', links=links, links_total=links_total)
+
+
+@app.route('/account', methods=['GET', 'POST'])
+@login_required
+def account():
+    form = AccountForm()
+    if form.validate_on_submit():
+        current_user.bio = form.bio.data
+        current_user.email = form.email.data
+        db.session.commit()
+        flash('Your account has been updated!')
+        return redirect(url_for('account'))
+    elif request.method == 'GET':
+        form.bio.data = current_user.bio
+        form.email.data = current_user.email
+    return render_template('forms/account.html', title='My Account', form=form)
 
 
 @app.route('/create-link', methods=['GET', 'POST'])
@@ -76,6 +95,7 @@ def view_site(username):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user:
@@ -86,6 +106,8 @@ def login():
         if user is None:
             flash("This account does not exist.", 'warning')
 
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard'))
     return render_template('forms/login.html', title="Login", form=form)
 
 
@@ -99,8 +121,12 @@ def register():
                         email=form.email.data, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
-
+        flash(
+            f"Account has been created for {form.email.data}, you are able to login now!", 'success')
         return redirect(url_for('login'))
+
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard'))
     return render_template('forms/register.html', title="Register", form=form)
 
 
