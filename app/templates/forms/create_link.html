@@ -11,7 +11,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="{{ url_for('home') }}">MyLink</a>
+        <a class="navbar-brand" href="{{ url_for('dashboard') }}">MyLink</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -27,21 +27,27 @@
                     <a class="nav-link" href="{{ url_for('create_link') }}">Create Link</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('account') }}">Account</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
                 </li>
         </div>
     </nav>
 
-    <div class="site-form">
-        <h3>New Link</h3>
-        <hr>
-        <form method='POST'>
-            {{ form.hidden_tag() }}
-            <div class="input-field">{{ form.link_name() }}</div>
-            <div class="input-field">{{ form.link() }}</div>
-            <div class="input-field"><button class="btn btn-primary">Add Link</button></div>
-        </form><br>
+    <div class="container">
+        <div class="site-form">
+            <h3>New Link</h3>
+            <hr>
+            <form method='POST'>
+                {{ form.hidden_tag() }}
+                <div class="input-field">{{ form.link_name() }}</div>
+                <div class="input-field">{{ form.link() }}</div>
+                <div class="create"><button class="btn btn-primary">Add Link</button></div>
+            </form>
+        </div>
     </div>
+
 
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -60,8 +66,10 @@
             padding: 20px;
             border: 1px solid lightgray;
             border-radius: 10px;
-            margin-left: 10%;
-            margin-right: 10%;
+        }
+
+        .input-field {
+            margin-bottom: 30px;
         }
 
         .input-field>input {
@@ -69,7 +77,6 @@
             padding: 10px;
             border-radius: 8px;
             border: 1px solid lightgray;
-            margin-bottom: 30px;
         }
 
         .input-field>input:focus {

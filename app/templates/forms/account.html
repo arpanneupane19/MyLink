@@ -11,7 +11,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="{{ url_for('home') }}">MyLink</a>
+        <a class="navbar-brand" href="{{ url_for('dashboard') }}">MyLink</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -20,20 +20,24 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('home') }}">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Login</a>
+                    <a class="nav-link" href="{{ url_for('dashboard') }}">Home <span
+                            class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+                    <a class="nav-link" href="{{ url_for('create_link') }}">Create Link</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ url_for('account') }}">Account</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
                 </li>
         </div>
     </nav>
 
     <div class="container">
-        <div class="login-form">
-            <h3>Login</h3>
+        <div class="update-form">
+            <h3><img src="../../static/profile_pics/{{current_user.profile_picture}}" width="70" />My Account</h3>
             {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
             {% for category, message in messages %}
@@ -50,14 +54,22 @@
                 <hr>
                 <form method='POST'>
                     {{ form.hidden_tag() }}
-                    <div class="input-field">{{ form.username() }}</div>
-                    <div class="input-field">{{ form.password() }}</div>
-                    <div class="login"><button class="btn btn-primary">Login</button></div>
-                </form><br>
-                <a style="text-decoration: none;" href="{{ url_for('register') }}">Don't have an account? Sign up
-                    now.</a>
+                    <div class="input-field">
+                        {{ form.email() }}
+                        {% if form.email.errors %}
+                        {% for error in form.email.errors %}
+                        <p>{{error}}</p>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="input-field">{{ form.bio() }}</div>
+                    <div class="update"><button class="btn btn-primary">Update Account</button></div>
+                </form>
             </div>
         </div>
+
+
+
 
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -70,7 +82,7 @@
             crossorigin="anonymous"></script>
 
         <style>
-            .login-form {
+            .update-form {
                 margin-top: 90px;
                 padding: 20px;
                 border: 1px solid lightgray;
@@ -79,6 +91,7 @@
 
             .input-field {
                 margin-bottom: 30px;
+
             }
 
             .input-field>input {
