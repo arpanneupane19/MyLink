@@ -46,7 +46,7 @@ class CreateLinkForm(FlaskForm):
 class AccountForm(FlaskForm):
     email = StringField(validators=[InputRequired(), Email(
         message="Invalid Email"), Length(max=50)], render_kw={"placeholder": "Edit Email"})
-    bio = TextAreaField([Length(min=0, max=1000)], render_kw={
+    bio = TextAreaField([Length(min=0, max=300)], render_kw={
         "placeholder": "Edit Bio"})
 
     def validate_email(self, email):
