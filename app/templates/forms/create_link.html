@@ -42,7 +42,10 @@
             <form method='POST'>
                 {{ form.hidden_tag() }}
                 <div class="input-field">{{ form.link_name() }}</div>
-                <div class="input-field">{{ form.link() }}</div>
+                <div class="input-field">
+                    <button type="button" class="btn" disabled>https://</button>
+                    {{ form.link() }}
+                </div>
                 <div class="create"><button class="btn btn-primary">Add Link</button></div>
             </form>
         </div>
@@ -70,6 +73,12 @@
 
         .input-field {
             margin-bottom: 30px;
+            display: flex;
+        }
+
+        .input-field>button {
+            margin-right: 8px;
+            border: 1px solid lightgray;
         }
 
         .input-field>input {
