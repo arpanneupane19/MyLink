@@ -16,6 +16,11 @@
         <div class="user">
             <img class='profile-picture' src="../../static/profile_pics/{{user.profile_picture}}">
             <h2>{{user.username}}</h2>
+            {% if user.bio == None %}
+            <p>No bio yet.</p>
+            {% else %}
+            <p>{{user.bio}}</p>
+            {% endif %}
             <div class="links">
                 {% for link in links %}
                 <div class="link">
