@@ -45,12 +45,13 @@ class CreateLinkForm(FlaskForm):
 
 class AccountForm(FlaskForm):
     email = StringField(validators=[InputRequired(), Email(
-        message="Invalid Email"), Length(min=5, max=50)], render_kw={"placeholder": "Update Email Address"})
-    bio = StringField(validators=[InputRequired(), Length(
-        min=4, max=300)], render_kw={"placeholder": "Update My Bio"})
+        message="Invalid Email"), Length(max=50)], render_kw={"placeholder": "Edit Email"})
+    bio = TextAreaField([Length(min=0, max=1000)], render_kw={
+        "placeholder": "Edit Bio"})
 
     def validate_email(self, email):
-        existing_email = User.query.filter_by(email=email.data).first()
-        if existing_email:
-            raise ValidationError(
-                "That email already exists, please choose a different one.")
+        if current_user.email != email.data:
+            email = User.query.filter_by(email=email.data).first()
+            if email:
+                raise ValidationError(
+                    "That email address belongs to different user. Please choose a different one.")
