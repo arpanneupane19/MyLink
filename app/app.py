@@ -85,6 +85,15 @@ def create_link():
     return render_template('forms/create_link.html', title='Create Link', form=form)
 
 
+@app.route('/edit-link/<int:link_id>', methods=['GET', "POST"])
+@login_required
+def edit_link(link_id):
+    form = EditLinkForm()
+    link = Link.query.filter_by(id=link_id).first_or_404()
+    # Pass in form validation here
+    return render_template('forms/edit_link.html', form=form, title='Edit Link')
+
+
 @app.route('/<username>')
 def view_site(username):
     user = User.query.filter_by(username=username).first_or_404()
