@@ -43,6 +43,13 @@ class CreateLinkForm(FlaskForm):
                             "placeholder": "Link Name (Name that will show up)"})
 
 
+class EditLinkForm(FlaskForm):
+    link = StringField(validators=[InputRequired(), Length(
+        min=5, max=200)], render_kw={"placeholder": "Link (Domain name only)"})
+    link_name = StringField(validators=[InputRequired(), Length(min=4, max=50)], render_kw={
+                            "placeholder": "Link Name (Name that will show up)"})
+
+
 class AccountForm(FlaskForm):
     email = StringField(validators=[InputRequired(), Email(
         message="Invalid Email"), Length(max=50)], render_kw={"placeholder": "Edit Email"})
