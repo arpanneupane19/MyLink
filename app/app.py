@@ -90,7 +90,15 @@ def create_link():
 def edit_link(link_id):
     form = EditLinkForm()
     link = Link.query.filter_by(id=link_id).first_or_404()
-    # Pass in form validation here
+    if form.validate_on_submit():
+        link.link = form.link.data
+        link.link_name = form.link_name.data
+        db.session.commit()
+        flash("Your link has been changed successfully!", 'success')
+        return redirect(url_for('dashboard'))
+    elif request.method == 'GET':
+        form.link.data = link.link
+        form.link_name.data = link.link_name
     return render_template('forms/edit_link.html', form=form, title='Edit Link')
 
 
