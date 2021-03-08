@@ -52,7 +52,7 @@
                 {% endif %}
                 {% endwith %}
                 <hr>
-                <form method='POST'>
+                <form method='POST' action="" enctype="multipart/form-data">
                     {{ form.hidden_tag() }}
                     <div class="input-field">
                         {{ form.email() }}
@@ -63,6 +63,14 @@
                         {% endif %}
                     </div>
                     <div class="input-field">{{ form.bio() }}</div>
+                    <div class="input-field">
+                        {{ form.profile_pic() }}
+                        {% if form.profile_pic.errors %}
+                        {% for error in form.profile_pic.errors %}
+                        <p>{{error}}</p>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
                     <div class="update"><button class="btn btn-primary">Update Account</button></div>
                 </form>
             </div>
