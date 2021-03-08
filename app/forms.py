@@ -51,6 +51,7 @@ class EditLinkForm(FlaskForm):
 
 
 class AccountForm(FlaskForm):
+    profile_pic = FileField(validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
     email = StringField(validators=[InputRequired(), Email(
         message="Invalid Email"), Length(max=50)], render_kw={"placeholder": "Edit Email"})
     bio = TextAreaField([Length(min=0, max=300)], render_kw={
