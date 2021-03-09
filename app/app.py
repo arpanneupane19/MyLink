@@ -4,6 +4,9 @@ from forms import *
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+import secrets
+import os
+from PIL import Image
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '574d6ae483e049f1b2575c8a455c6e0e'
@@ -55,11 +58,29 @@ def dashboard():
     return render_template('pages/dashboard.html', title='Dashboard', links=links, links_total=links_total)
 
 
+def save_picture(form_profile_pic):
+    rand_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_profile_pic.filename)
+    picture_name = rand_hex + f_ext
+    picture_path = os.path.join(
+        app.root_path, 'static/profile_pics', picture_name)
+    form_profile_pic.save(picture_path)
+
+    output_size = (125, 125)
+    i = Image.open(form_profile_pic)
+    i.thumbnail(output_size)
+    i.save(picture_path)
+    return picture_name
+
+
 @app.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
     form = AccountForm()
     if form.validate_on_submit():
+        if form.profile_pic.data:
+            picture_file = save_picture(form.profile_pic.data)
+            current_user.profile_picture = picture_file
         current_user.bio = form.bio.data
         current_user.email = form.email.data
         db.session.commit()
@@ -68,7 +89,9 @@ def account():
     elif request.method == 'GET':
         form.bio.data = current_user.bio
         form.email.data = current_user.email
-    return render_template('forms/account.html', title='My Account', form=form)
+    profile_picture = url_for(
+        'static', filename='profile_pics/' + current_user.profile_picture)
+    return render_template('forms/account.html', title='My Account', form=form, profile_picture=profile_picture)
 
 
 @app.route('/create-link', methods=['GET', 'POST'])
