@@ -19,6 +19,7 @@ Jinja2==2.11.3
 MarkupSafe==1.1.1
 mypy-extensions==0.4.3
 pathspec==0.8.1
+Pillow==8.1.2
 pycodestyle==2.6.0
 pycparser==2.20
 regex==2020.11.13
