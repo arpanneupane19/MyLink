@@ -37,7 +37,8 @@
 
     <div class="container">
         <div class="update-form">
-            <h3><img src="../../static/profile_pics/{{current_user.profile_picture}}" width="70" />My Account</h3>
+            <h3 class="name-image"><img src="../../static/profile_pics/{{current_user.profile_picture}}" width="70" />My
+                Account</h3>
             {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
             {% for category, message in messages %}
@@ -122,6 +123,12 @@
 
             .input-field>textarea:focus {
                 outline: none;
+            }
+
+            .name-image>img {
+                margin-right: 20px;
+                border: 1px solid lightgray;
+                border-radius: 4px;
             }
         </style>
 
