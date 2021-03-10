@@ -37,7 +37,7 @@
 
     <div class="container">
         <div class="update-form">
-            <h3 class="name-image"><img src="../../static/profile_pics/{{current_user.profile_picture}}" width="70" />My
+            <h3 class="name-image"><img src="{{profile_picture}}" width="70" />My
                 Account</h3>
             {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
