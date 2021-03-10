@@ -125,6 +125,16 @@ def edit_link(link_id):
     return render_template('forms/edit_link.html', form=form, title='Edit Link')
 
 
+@app.route('/delete-link/<int:link_id>', methods=['GET', 'POST'])
+@login_required
+def delete_link(link_id):
+    link = Link.query.filter_by(id=link_id).first_or_404()
+    db.session.delete(link)
+    db.session.commit()
+    flash("Your link has successfully been deleted!", 'success')
+    return redirect(url_for('dashboard'))
+
+
 @app.route('/<username>')
 def view_site(username):
     user = User.query.filter_by(username=username).first_or_404()
