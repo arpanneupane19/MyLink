@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_bootstrap import Bootstrap
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
-from wtforms.validators import InputRequired, Email, Length, ValidationError
+from wtforms.validators import InputRequired, Email, Length, ValidationError, URL
 from app import *
 
 
@@ -38,14 +38,14 @@ class RegisterForm(FlaskForm):
 
 class CreateLinkForm(FlaskForm):
     link = StringField(validators=[InputRequired(), Length(
-        min=5, max=200)], render_kw={"placeholder": "Link (Domain name only)"})
+        min=5, max=200), URL('Invalid URL')], render_kw={"placeholder": "Link (https://example.domain)"})
     link_name = StringField(validators=[InputRequired(), Length(min=4, max=50)], render_kw={
                             "placeholder": "Link Name (Name that will show up)"})
 
 
 class EditLinkForm(FlaskForm):
     link = StringField(validators=[InputRequired(), Length(
-        min=5, max=200)], render_kw={"placeholder": "Link (Domain name only)"})
+        min=5, max=200), URL('Invalid URL')], render_kw={"placeholder": "Link (https://example.domain)"})
     link_name = StringField(validators=[InputRequired(), Length(min=4, max=50)], render_kw={
                             "placeholder": "Link Name (Name that will show up)"})
 
