@@ -38,60 +38,77 @@
     <div class="container">
         <div class="site-form">
             <h3>New Link</h3>
-            <hr>
-            <form method='POST'>
-                {{ form.hidden_tag() }}
-                <div class="input-field">{{ form.link_name() }}</div>
-                <div class="input-field">
-                    <button type="button" class="btn" disabled>https://</button>
-                    {{ form.link() }}
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            {% if category == 'message' %}
+            <div class="alert alert-warning" role="alert">
+                {% else %}
+                <div class="alert alert-{{ category }}" role="alert">
+                    {% endif %}
+                    {{ message }}
                 </div>
-                <div class="create"><button class="btn btn-primary">Add Link</button></div>
-            </form>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+                <hr>
+                <form method='POST'>
+                    {{ form.hidden_tag() }}
+                    <div class="input-field">{{ form.link_name() }}</div>
+                    <div class="input-field">
+                        {{ form.link() }}<br>
+                        {% if form.link.errors %}
+                        {% for error in form.link.errors %}
+                        <p>{{error}}</p>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="create"><button class="btn btn-primary">Add Link</button></div>
+                </form>
+            </div>
         </div>
-    </div>
 
 
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
 
-    <style>
-        .site-form {
-            margin-top: 90px;
-            padding: 20px;
-            border: 1px solid lightgray;
-            border-radius: 10px;
-        }
+        <style>
+            .site-form {
+                margin-top: 90px;
+                padding: 20px;
+                border: 1px solid lightgray;
+                border-radius: 10px;
+            }
 
-        .input-field {
-            margin-bottom: 30px;
-            display: flex;
-        }
+            .input-field {
+                margin-bottom: 30px;
+                display: flex;
+            }
 
-        .input-field>button {
-            margin-right: 8px;
-            border: 1px solid lightgray;
-        }
+            .input-field>button {
+                margin-right: 8px;
+                border: 1px solid lightgray;
+            }
 
-        .input-field>input {
-            width: 100%;
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid lightgray;
-        }
+            .input-field>input {
+                width: 100%;
+                padding: 10px;
+                border-radius: 8px;
+                border: 1px solid lightgray;
+            }
 
-        .input-field>input:focus {
-            outline: none;
-        }
-    </style>
+            .input-field>input:focus {
+                outline: none;
+            }
+        </style>
 
 </body>
 
