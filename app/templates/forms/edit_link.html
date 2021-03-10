@@ -43,8 +43,12 @@
                 {{ form.hidden_tag() }}
                 <div class="input-field">{{ form.link_name() }}</div>
                 <div class="input-field">
-                    <button type="button" class="btn" disabled>https://</button>
-                    {{ form.link() }}
+                    {{ form.link() }}<br>
+                    {% if form.link.errors %}
+                    {% for error in form.link.errors %}
+                    <p>{{error}}</p>
+                    {% endfor %}
+                    {% endif %}
                 </div>
                 <div class="create"><button class="btn btn-primary">Save Changes</button></div>
             </form>
